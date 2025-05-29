@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nfc兽设档案</title>
+    <style>
+        /* 兽设专属样式 */
+        :root {
+            --primary: #8A2BE2; /* 紫色 */
+            --secondary: #00CED1; /* 青色 */
+        }
+        body {
+            font-family: 'Comic Sans MS', 'Yuanti SC', cursive;
+            background: linear-gradient(135deg, #1a0633 0%, #0b3d49 100%);
+            color: #f0f0f0;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 兽设头部 */
+        .furry-header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .furry-name {
+            font-size: 3.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
+        }
+        .species {
+            font-size: 1.4rem;
+            color: #a8d8ea;
+            margin-bottom: 30px;
+        }
+        
+        /* 兽设展示区 */
+        .fursona-display {
+            display: flex;
+            margin: 50px 0;
+            gap: 40px;
+        }
+        .fursona-image {
+            flex: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .fursona-details {
+            flex: 1;
+            background: rgba(30, 15, 50, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+        }
+        .detail-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+        .detail-title {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .detail-title::before {
+            content: "❖";
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        /* 特征标签 */
+        .traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .trait {
+            background: rgba(0, 206, 209, 0.15);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* 世界观区域 */
+        .world-section {
+            background: rgba(15, 30, 60, 0.5);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+        }
+        .world-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+        
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .fursona-display { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 兽设头部信息 -->
+        <header class="furry-header">
+            <h1 class="furry-name">名•字</h1>
+            <div class="species">原型</div>
+            <p>自我介绍</p>
+        </header>
+        
+        <!-- 兽设形象展示 -->
+        <section class="fursona-display">
+            <div class="fursona-image">
+				<img src="fursona-character.png" alt="兽设形象" style="width:100%">
+            </div>
+            
+            <div class="fursona-details">
+                <div class="detail-item">
+                    <div class="detail-title">基础信息</div>
+                    <p><strong>兽名：</strong>兽名 (英文名)</p>
+                    <p><strong>物种：</strong>物种 (物种英文名)</p>
+                    <p><strong>性别：</strong>性别？</p>
+                    <p><strong">身高：</strong>身高（直立形态）</p>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-title">外貌特征</div>
+                    <div class="traits">
+                        <span class="trait">特征1</span>
+                        <span class="trait">特征2</span>
+                        <span class="trait">特征3</span>
+                        <span class="trait">特征4</span>
+                        <span class="trait">特征5</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-title">能力</div>
+                    <div class="traits">
+                        <span class="trait">能力1</span>
+                        <span class="trait">能力2</span>
+                        <span class="trait">能力3</span>
+                        <span class="trait">能力4</span>
+                    </div>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-title">简介</div>
+                    <p>简介</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
