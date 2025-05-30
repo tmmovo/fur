@@ -111,6 +111,65 @@
         @media (max-width: 768px) {
             .fursona-display { flex-direction: column; }
         }
+		
+		/* 扩列模块专属样式 */
+		.contact-section {
+		  background: rgba(40, 15, 60, 0.7);
+		  border-radius: 20px;
+		  padding: 30px;
+		  margin: 40px 0;
+		  backdrop-filter: blur(10px);
+		  border: 1px solid rgba(138, 43, 226, 0.3);
+		}
+		
+		.contact-cards {
+		  display: grid;
+		  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		  gap: 25px;
+		  margin-top: 20px;
+		}
+		
+		.contact-card {
+		  background: linear-gradient(145deg, #2a0f45, #1a0633);
+		  padding: 25px;
+		  border-radius: 15px;
+		  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+		  transition: transform 0.3s;
+		}
+		
+		.contact-card:hover {
+		  transform: translateY(-8px);
+		}
+		
+		.contact-icon {
+		  font-size: 2.5rem;
+		  margin-bottom: 15px;
+		  color: #00CED1;
+		}
+		
+		.tag {
+		  display: inline-block;
+		  background: rgba(0, 206, 209, 0.2);
+		  padding: 5px 15px;
+		  border-radius: 20px;
+		  margin: 5px 5px 5px 0;
+		  font-size: 0.9rem;
+		}
+		
+		.commission-btn {
+		  background: #8A2BE2;
+		  color: white;
+		  border: none;
+		  padding: 10px 20px;
+		  border-radius: 30px;
+		  margin-top: 15px;
+		  cursor: pointer;
+		  transition: background 0.3s;
+		}
+		
+		.commission-btn:hover {
+		  background: #6a1f9e;
+		}
     </style>
 </head>
 <body>
@@ -134,7 +193,7 @@
                     <p><strong>兽名：</strong>兽名 (英文名)</p>
                     <p><strong>物种：</strong>物种 (物种英文名)</p>
                     <p><strong>性别：</strong>性别？</p>
-                    <p><strong">身高：</strong>身高（直立形态）</p>
+                    <p><strong>身高：</strong>身高（直立形态）</p>
                 </div>
                 
                 <div class="detail-item">
@@ -165,5 +224,36 @@
             </div>
         </section>
     </div>
+	<section class="contact-section">
+	  <h2 class="section-title">✨ 兽友扩列通道</h2>
+	  <div class="contact-cards">
+	    <!-- 线上联系方式卡片 -->
+	    <div class="contact-card">
+	      <div class="contact-icon">📱</div>
+	      <h3>线上联系</h3>
+	      <ul>
+	        <li><strong>QQ：</strong> 12345678（备注兽设名）</li>
+	        <li><strong>微信：</strong> abcdefg（不备注不加）</li>
+	      </ul>
+	    </div>
+	    
+	    <!-- 线下活动卡片 -->
+	    <div class="contact-card">
+	      <div class="contact-icon">🎪</div>
+	      <h3>兽展捕捉</h3>
+	      <p>常驻展会地区：<br>
+	        <span class="tag">北京</span>
+	      </p>
+	      <p>识别特征：<br>明显特征</p>
+	    </div>
+	    
+	    <!-- 创作约稿卡片 -->
+	    <div class="contact-card">
+	      <div class="contact-icon">🎨</div>
+	      <h3>创作合作</h3>
+	      <p>征集：吧唧制造</p>
+		  </div>
+	  </div>
+	</section>
 </body>
 </html>
