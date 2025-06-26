@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>往期视频</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+
+        :root {
+            --primary-blue: #0066CC;
+            --dark-blue: #004C99;
+            --light-blue: #3399FF;
+            --bilibili-pink: #FB7299;
+            --dark-bg: #0A1929;
+            --card-bg: #15273D;
+            --text-primary: #E0F0FF;
+            --text-secondary: #A3C6E9;
+            --border-radius: 12px;
+            --shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0A1929 0%, #0D2340 100%);
+            color: var(--text-primary);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 顶部导航 */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(0, 102, 204, 0.4);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .back-btn:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 204, 0.4);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--light-blue), #FFFFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            color: var(--light-blue);
+            font-size: 32px;
+        }
+
+        /* 视频网格布局 */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            margin-bottom: 50px;
+        }
+
+        .video-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            position: relative;
+            border: 1px solid rgba(51, 153, 255, 0.2);
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            border-color: rgba(51, 153, 255, 0.5);
+        }
+
+        .thumbnail-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 宽高比 */
+            background: #0f2a4d;
+            overflow: hidden;
+        }
+
+        .thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .video-card:hover .thumbnail {
+            transform: scale(1.05);
+        }
+
+        /* 按钮容器 */
+        .button-container {
+            display: flex;
+            height: 48px;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+            margin-top: -4px;
+        }
+
+        .play-btn, .bilibili-btn {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+
+        .play-btn {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .play-btn:hover {
+            background: var(--dark-blue);
+        }
+
+        .bilibili-btn {
+            background: var(--bilibili-pink);
+            color: white;
+        }
+
+        .bilibili-btn:hover {
+            background: #e65a82;
+        }
+
+        .video-title {
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 错误状态 */
+        .error-thumbnail {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(251, 114, 153, 0.1),
+                rgba(251, 114, 153, 0.1) 10px,
+                rgba(251, 114, 153, 0.15) 10px,
+                rgba(251, 114, 153, 0.15) 20px
+            );
+        }
+
+        .error-icon {
+            font-size: 40px;
+            color: var(--bilibili-pink);
+            margin-bottom: 12px;
+        }
+
+        .error-text {
+            color: var(--bilibili-pink);
+            font-weight: 600;
+            font-size: 18px;
+            text-align: center;
+            padding: 0 16px;
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            width: 85%;
+            max-width: 900px;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+            border: 1px solid rgba(51, 153, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 102, 204, 0.5);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: var(--primary-blue);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            max-width: 80%;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .video-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        }
+
+        .video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-secondary);
+            font-size: 16px;
+            border-top: 1px solid rgba(51, 153, 255, 0.2);
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: var(--light-blue);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+            
+            .video-title {
+                font-size: 16px;
+                padding: 12px;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            .logo-text {
+                font-size: 24px;
+            }
+            
+            .modal-header {
+                padding: 15px;
+            }
+            
+            .modal-title {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <button class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                返回首页
+            </button>
+            <div class="logo">
+                <i class="fas fa-play-circle logo-icon"></i>
+                <h1 class="logo-text">往期视频</h1>
+            </div>
+        </nav>
+
+        <!-- 视频网格 -->
+        <div class="video-grid" id="videoGrid">
+            <!-- 视频卡片将通过JavaScript动态生成 -->
+        </div>
+
+        <!-- 模态框 -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="modalTitle">视频标题</div>
+                    <button class="close-btn" id="closeModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="video-container">
+                    <iframe class="video-iframe" id="videoIframe" allowfullscreen scrolling="no" border="0" frameborder="no" framespacing="0"></iframe>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 页脚 -->
+        <!-- <footer class="footer">
+            <p>© 2023 深蓝视频平台 | 设计灵感来自Bilibili | <a href="#">隐私政策</a> | <a href="#">使用条款</a></p>
+        </footer> -->
+    </div>
+
+    <script>
+        // 视频数据（只存储BV号）
+        const videos = [
+            {
+                id: 1,
+                title: "视频1",
+                thumbnail: "封面1",
+                bv: "BV号"
+            }// ,
+            // {
+            //     id: 2,
+            //     title: "CSS Grid布局完全指南",
+            //     thumbnail: "https://picsum.photos/id/11/400/225",
+            //     bv: "BV1mK4y1Z7Xp"
+            // },
+            // {
+            //     id: 3,
+            //     title: "React Hooks 深入解析与最佳实践",
+            //     thumbnail: "https://picsum.photos/id/12/400/225",
+            //     bv: "BV1nL411x7hR"
+            // },
+            // {
+            //     id: 4,
+            //     title: "Python数据科学实战 - 从入门到精通",
+            //     thumbnail: "https://picsum.photos/id/13/400/225",
+            //     bv: "BV1uK4y1d7bQ"
+            // },
+            // {
+            //     id: 5,
+            //     title: "Vue 3.0 新特性详解与项目实战",
+            //     thumbnail: "https://picsum.photos/id/14/400/225",
+            //     bv: "BV1oQ4y1Z7EM"
+            // },
+            // {
+            //     id: 6,
+            //     title: "UI/UX设计原则与实践指南",
+            //     thumbnail: "invalid-url", // 无效URL用于测试错误状态
+            //     bv: "BV1cM4y1T7Rf"
+            // },
+            // {
+            //     id: 7,
+            //     title: "Node.js高性能服务器开发技巧",
+            //     thumbnail: "https://picsum.photos/id/16/400/225",
+            //     bv: "BV1W64y1B7Jq"
+            // },
+            // {
+            //     id: 8,
+            //     title: "TypeScript从入门到项目实战",
+            //     thumbnail: "https://picsum.photos/id/17/400/225",
+            //     bv: "BV1vK4y1d7bQ"
+            // },
+            // {
+            //     id: 9,
+            //     title: "Web安全攻防实战教程",
+            //     thumbnail: "https://picsum.photos/id/18/400/225",
+            //     bv: "BV1WQ4y1Z7EM"
+            // },
+            // {
+            //     id: 10,
+            //     title: "Docker容器化部署指南",
+            //     thumbnail: "https://picsum.photos/id/19/400/225",
+            //     bv: "BV1cQ4y1d7fR"
+            // },
+            // {
+            //     id: 11,
+            //     title: "人工智能基础与机器学习入门",
+            //     thumbnail: "https://picsum.photos/id/20/400/225",
+            //     bv: "BV1bQ4y1d7fR"
+            // },
+            // {
+            //     id: 12,
+            //     title: "响应式网页设计最佳实践",
+            //     thumbnail: "https://picsum.photos/id/21/400/225",
+            //     bv: "BV1vQ4y1d7fR"
+            // }
+        ];
+
+        // DOM元素
+        const videoGrid = document.getElementById('videoGrid');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const videoIframe = document.getElementById('videoIframe');
+        const closeModal = document.getElementById('closeModal');
+
+        // 生成视频卡片
+        function renderVideoCards() {
+            videoGrid.innerHTML = '';
+            
+            videos.forEach(video => {
+                const card = document.createElement('div');
+                card.className = 'video-card';
+                
+                card.innerHTML = `
+                    <div class="thumbnail-container">
+                        ${video.thumbnail && video.thumbnail !== 'invalid-url' ? 
+                            `<img src="${video.thumbnail}" alt="${video.title}" class="thumbnail" 
+                                 onerror="this.onerror=null; this.style.display='none'; 
+                                 this.nextElementSibling.style.display='flex';">` : 
+                            ``
+                        }
+                        <div class="error-thumbnail" 
+                             style="${video.thumbnail && video.thumbnail !== 'invalid-url' ? 'display: none;' : ''}">
+                            <i class="fas fa-exclamation-triangle error-icon"></i>
+                            <div class="error-text">封面加载失败</div>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button class="play-btn" data-id="${video.id}">
+                            <i class="fas fa-play"></i> 网站播放
+                        </button>
+                        <a href="https://b23.tv/${video.bv}" 
+                           target="_blank" class="bilibili-btn">
+                            <i class="fab fa-bilibili"></i> B站打开
+                        </a>
+                    </div>
+                    <div class="video-title">${video.title}</div>
+                `;
+                
+                videoGrid.appendChild(card);
+            });
+            
+            // 添加播放按钮事件
+            document.querySelectorAll('.play-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const videoId = parseInt(btn.getAttribute('data-id'));
+                    openVideoModal(videoId);
+                });
+            });
+        }
+
+        // 打开视频模态框
+        function openVideoModal(videoId) {
+            const video = videos.find(v => v.id === videoId);
+            if (!video) return;
+            
+            modalTitle.textContent = video.title;
+            videoIframe.src = `https://player.bilibili.com/player.html?bvid=${video.bv}&page=1&high_quality=1&danmaku=0`;
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭视频模态框
+        function closeVideoModal() {
+            modalOverlay.classList.remove('active');
+            videoIframe.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        // 事件监听器
+        closeModal.addEventListener('click', closeVideoModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeVideoModal();
+            }
+        });
+
+        // 返回按钮功能
+        document.querySelector('.back-btn').addEventListener('click', () => {
+            // alert('返回首页功能');
+            window.location.href = 'https://fur.mcdr.top';
+        });
+
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            renderVideoCards();
+        });
+    </script>
+</body>
+</html>
