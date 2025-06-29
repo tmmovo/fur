@@ -170,20 +170,32 @@
 		.commission-btn:hover {
 		  background: #6a1f9e;
 		}
+		
+		iframe {
+		    width: 100%;
+		    overflow: hidden;
+		}
     </style>
 </head>
 <body>
     <div class="container">
         <!-- 兽设头部信息 -->
         <header class="furry-header">
-            <h1 class="furry-name">欢迎扩列</h1>
+            <h1 class="furry-name">fur.mcdr.top</h1>
             <div class="species">1708039100</div>
         </header>
         
         <!-- 兽设形象展示 -->
         <section class="fursona-display">
             <div class="fursona-image">
-				<img src="fursona-character.png" alt="暂无实拍形象" style="width:100%">
+				<!-- <img src="fursona-character.png" alt="暂无实拍形象" style="width:100%"> -->
+				<iframe 
+				    src="furimg.html" 
+				    width="100%" 
+				    height="100%" 
+				    scrolling="auto"
+				    sandbox="allow-same-origin allow-scripts">
+				</iframe>
             </div>
             
             <div class="fursona-details">
@@ -192,7 +204,7 @@
                     <p><strong>性名：</strong>凨狐皦冰 (Zynfox)</p>
                     <p><strong>物种：</strong>雪狐</p>
                     <p><strong>性别：</strong>暂不公开</p>
-                    <p><strong>身高：</strong>170</p>
+                    <p><strong>身高：</strong>0±1000cm</p>
                 </div>
                 
                 <div class="detail-item">
@@ -200,7 +212,7 @@
                     <div class="traits">
                         <span class="trait"><strong>全身遍布闪电图样</strong></span>
                         <span class="trait"><strong>尾部尖端为白色</strong></span>
-                        <span class="trait">亮蓝色-蓝色</span>
+                        <span class="trait"><strong>亮蓝色-蓝色</strong></span>
                     </div>
                 </div>
 				
@@ -209,8 +221,8 @@
         </section>
     </div>
 	<div style="position: fixed; bottom: 30px; right: 30px; z-index: 9999;">
-	    <a href="video.html" target="_blank" 
-	       style="display: inline-flex; align-items: center; 
+	    <a onclick="AlertVideo()" target="_blank" 
+			style="display: inline-flex; align-items: center; 
 	              justify-content: center; gap: 8px;
 	              padding: 12px 20px; 
 	              background: linear-gradient(135deg, #0066CC 0%, #004C99 100%);
@@ -255,5 +267,10 @@
 		  </div>
 	  </div>
 	</section>
+	<script>
+		function AlertVideo(){
+			window.location.href = 'https://fur.mcdr.top/video';
+		}
+	</script>
 </body>
 </html>
